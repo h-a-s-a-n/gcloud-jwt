@@ -1,0 +1,37 @@
+{
+  "name": "gcloud-jwt",
+  "version": "0.1.0",
+  "description": "Google Cloud JWT tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h-a-s-a-n/gcloud-jwt.git"
+  },
+  "keywords": [
+    "gcloud",
+    "gsuite",
+    "google",
+    "cloud",
+    "jwt",
+    "verify",
+    "gchat",
+    "chat",
+    "header",
+    "request",
+    "auth",
+    "authenticate",
+    "validate"
+  ],
+  "author": "Hasan Sanli <hasan@cloudflare.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/h-a-s-a-n/gcloud-jwt/issues"
+  },
+  "homepage": "https://github.com/h-a-s-a-n/gcloud-jwt#readme",
+  "devDependencies": {
+    "prettier": "^2.0.5"
+  }
+}
