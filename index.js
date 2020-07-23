@@ -1,3 +1,9 @@
+const getJWT = (request) => {
+  let authHeader = request.headers.get('Authorization')
+  if (!authHeader || authHeader.substring(0, 6) !== 'Bearer') return null
+  return authHeader.substring(6).trim()
+}
+
 const decodeJWT = (encoded) => {
   const parts = encoded.split('.')
   const header = JSON.parse(atob(parts[0]))
