@@ -1,10 +1,10 @@
-const getJWT = (request) => {
+const getJwt = (request) => {
   let authHeader = request.headers.get('Authorization')
   if (!authHeader || authHeader.substring(0, 6) !== 'Bearer') return null
   return authHeader.substring(6).trim()
 }
 
-const decodeJWT = (encoded) => {
+const decodeJwt = (encoded) => {
   const parts = encoded.split('.')
   const header = JSON.parse(atob(parts[0]))
   const payload = JSON.parse(atob(parts[1]))
@@ -32,20 +32,28 @@ const getKey = async (kid, url) => {
 }
 
 const verify = async (request, jwkUrl) => {
-  let valid = false
+  let output = {
+    valid: false,
+    message: true
+  }
   try {
-    let encodedToken = getJWT(request)
-    const token = decodeJWT(encodedToken)
+    let encodedToken = getJwt(request)
+    const token = decodeJwt(encodedToken)
+    const expired = token.payload.exp * 1000 < Date.now()
     const key = await getKey(token.header.kid, jwkUrl)
     const encoder = new TextEncoder()
     const data = encoder.encode([token.raw.header, token.raw.payload].join('.'))
     const signature = new Uint8Array(Array.from(token.signature).map((c) => c.charCodeAt(0)))
-    valid = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, signature, data)
+    output.valid = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, signature, data)
+    if (output.valid === true && expired === true) {
+      throw new Error('Token is valid but expired.')
+    }
   } catch (err) {
     console.log(err)
-    valid = false
+    output.valid = false
+    output.message = err.message
   }
-  return valid
+  return output
 }
 
 export { verify }

@@ -1,2 +1,2 @@
-# gcloud-jwt
-Google Cloud JWT tools
+# jwt-tools
+JWT tools (using Web Crypto)
